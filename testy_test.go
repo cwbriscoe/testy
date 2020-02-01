@@ -63,6 +63,15 @@ func TestNotEquals(t *testing.T) {
 	NotEquals(t, "Bar", v6)
 }
 
+func TestNil(t *testing.T) {
+	Nil(t, nil)
+}
+
+func TestNotNil(t *testing.T) {
+	v := 1
+	NotNil(t, v)
+}
+
 func TestAssert(t *testing.T) {
 	Assert(t, 1 == 1, "1 != 1")
 	Assert(t, 0 == 0, "0 != 0")
