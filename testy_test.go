@@ -72,3 +72,11 @@ func TestAssert(t *testing.T) {
 	Assert(t, "Foo" == "Foo", "Foo != Foo")
 	Assert(t, "Foo" == "Foo", "Foo != Foo")
 }
+
+func TestNilValues(t *testing.T) {
+	b1 := &[]byte{}
+	b2 := &[]byte{1, 2, 3}
+
+	NotEquals(t, nil, b2)
+	Equals(t, nil, b1)
+}

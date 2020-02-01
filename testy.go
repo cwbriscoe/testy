@@ -32,18 +32,22 @@ func NotOk(tb testing.TB, err error) {
 }
 
 // Equals fails if v1 does not equal v2
-func Equals(tb testing.TB, v1, v2 interface{}) {
+func Equals(tb testing.TB, expected, result interface{}) {
 	_, file, line, _ := runtime.Caller(1)
-	if v1 != v2 {
-		tb.Fatalf("%s:%d NOTEQUAL: expected %v, got %v", file, line, v1, v2)
+	expected = equalizeNilValue(expected)
+	result = equalizeNilValue(result)
+	if expected != result {
+		tb.Fatalf("%s:%d NOTEQUAL: expected %v, got %v", file, line, expected, result)
 	}
 }
 
 // NotEquals fails if v1 equals v2
-func NotEquals(tb testing.TB, v1, v2 interface{}) {
+func NotEquals(tb testing.TB, expected, result interface{}) {
 	_, file, line, _ := runtime.Caller(1)
-	if v1 == v2 {
-		tb.Fatalf("%s:%d EQUAL: did not expect %v to equal %v", file, line, v1, v2)
+	expected = equalizeNilValue(expected)
+	result = equalizeNilValue(result)
+	if expected == result {
+		tb.Fatalf("%s:%d EQUAL: did not expect %v to equal %v", file, line, expected, result)
 	}
 }
 
@@ -53,4 +57,15 @@ func Assert(tb testing.TB, condition bool, msg string) {
 	if !condition {
 		tb.Fatalf("%s:%d ASSERT: %s", file, line, msg)
 	}
+}
+
+// equalizeNilValue converts []byte to nil for comparison
+func equalizeNilValue(v1 interface{}) interface{} {
+	b, ok := v1.(*[]byte)
+	if ok {
+		if len(*b) == 0 {
+			return nil
+		}
+	}
+	return v1
 }
