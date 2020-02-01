@@ -74,9 +74,10 @@ func TestAssert(t *testing.T) {
 }
 
 func TestNilValues(t *testing.T) {
-	b1 := &[]byte{}
-	b2 := &[]byte{1, 2, 3}
-
+	var b1 []byte
+	var b2 [10]byte
+	b2[0] = 1
+	Assert(t, b1 == nil, "b1 should be nil")
 	NotEquals(t, nil, b2)
 	Equals(t, nil, b1)
 }

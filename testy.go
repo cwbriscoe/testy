@@ -61,9 +61,9 @@ func Assert(tb testing.TB, condition bool, msg string) {
 
 // equalizeNilValue converts []byte to nil for comparison
 func equalizeNilValue(v1 interface{}) interface{} {
-	b, ok := v1.(*[]byte)
+	b, ok := v1.([]byte)
 	if ok {
-		if len(*b) == 0 {
+		if len(b) == 0 {
 			return nil
 		}
 	}
