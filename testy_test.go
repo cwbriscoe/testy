@@ -90,3 +90,45 @@ func TestNilValues(t *testing.T) {
 	NotEquals(t, nil, b2)
 	Equals(t, nil, b1)
 }
+
+func TestNumericEqualities(t *testing.T) {
+	var i1 int8 = 1
+	var i2 int16 = 1
+	var i3 int32 = 1
+	var i4 int64 = 1
+	var i5 rune = 1
+	Equals(t, i1, i2)
+	Equals(t, i1, i3)
+	Equals(t, i1, i4)
+	Equals(t, i1, i5)
+	Equals(t, i2, i3)
+	Equals(t, i2, i4)
+	Equals(t, i2, i5)
+	Equals(t, i3, i4)
+	Equals(t, i3, i5)
+	Equals(t, i4, i5)
+
+	var u1 uint8 = 1
+	var u2 uint16 = 1
+	var u3 uint32 = 1
+	var u4 uint64 = 1
+	var u5 byte = 1
+	Equals(t, u1, u2)
+	Equals(t, u1, u3)
+	Equals(t, u1, u4)
+	Equals(t, u1, u5)
+	Equals(t, u2, u3)
+	Equals(t, u2, u4)
+	Equals(t, u2, u5)
+	Equals(t, u3, u4)
+	Equals(t, u3, u5)
+	Equals(t, u4, u5)
+
+	var f1 float32 = 1.0
+	var f2 float64 = 1.0
+	Equals(t, f1, f2)
+
+	var c1 complex64 = 2 + 3i
+	var c2 complex128 = 2 + 3i
+	Equals(t, c1, c2)
+}

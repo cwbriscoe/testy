@@ -34,8 +34,8 @@ func NotOk(tb testing.TB, err error) {
 // Equals fails if v1 does not equal v2
 func Equals(tb testing.TB, v1, v2 interface{}) {
 	_, file, line, _ := runtime.Caller(1)
-	v1 = equalizeNilValue(v1)
-	v2 = equalizeNilValue(v2)
+	v1 = normalizeValue(v1)
+	v2 = normalizeValue(v2)
 	if v1 != v2 {
 		tb.Fatalf("%s:%d NOTEQUAL: expected %v to equal %v", file, line, v1, v2)
 	}
@@ -44,8 +44,8 @@ func Equals(tb testing.TB, v1, v2 interface{}) {
 // NotEquals fails if v1 equals v2
 func NotEquals(tb testing.TB, v1, v2 interface{}) {
 	_, file, line, _ := runtime.Caller(1)
-	v1 = equalizeNilValue(v1)
-	v2 = equalizeNilValue(v2)
+	v1 = normalizeValue(v1)
+	v2 = normalizeValue(v2)
 	if v1 == v2 {
 		tb.Fatalf("%s:%d EQUAL: expected %v to not equal %v", file, line, v1, v2)
 	}
@@ -54,7 +54,7 @@ func NotEquals(tb testing.TB, v1, v2 interface{}) {
 // Nil fails if v1 is not nil
 func Nil(tb testing.TB, v1 interface{}) {
 	_, file, line, _ := runtime.Caller(1)
-	v1 = equalizeNilValue(v1)
+	v1 = normalizeValue(v1)
 	if v1 != nil {
 		tb.Fatalf("%s:%d NOTNIL: expected %v to be <nil>", file, line, v1)
 	}
@@ -63,7 +63,7 @@ func Nil(tb testing.TB, v1 interface{}) {
 // NotNil fails if v1 is nil
 func NotNil(tb testing.TB, v1 interface{}) {
 	_, file, line, _ := runtime.Caller(1)
-	v1 = equalizeNilValue(v1)
+	v1 = normalizeValue(v1)
 	if v1 == nil {
 		tb.Fatalf("%s:%d NOTNIL: expected %v to be not be <nil>", file, line, v1)
 	}
@@ -77,13 +77,39 @@ func Assert(tb testing.TB, condition bool, msg string) {
 	}
 }
 
-// equalizeNilValue converts []byte to nil for comparison
-func equalizeNilValue(v1 interface{}) interface{} {
-	b, ok := v1.([]byte)
-	if ok {
-		if len(b) == 0 {
+// normalizeValue converts []byte to nil for comparison
+func normalizeValue(v1 interface{}) interface{} {
+	switch v1.(type) {
+	case int64:
+		return v1
+	case int32:
+		return int64(v1.(int32))
+	case int16:
+		return int64(v1.(int16))
+	case int8:
+		return int64(v1.(int8))
+	case uint64:
+		return v1
+	case uint32:
+		return uint64(v1.(uint32))
+	case uint16:
+		return uint64(v1.(uint16))
+	case uint8:
+		return uint64(v1.(uint8))
+	case float64:
+		return v1
+	case float32:
+		return float64(v1.(float32))
+	case complex128:
+		return v1
+	case complex64:
+		return complex128(v1.(complex64))
+	case []byte:
+		if len(v1.([]byte)) == 0 {
 			return nil
 		}
+	default:
+		break
 	}
 	return v1
 }
