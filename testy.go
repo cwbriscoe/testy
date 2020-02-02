@@ -82,6 +82,8 @@ func normalizeValue(v1 interface{}) interface{} {
 	switch v1.(type) {
 	case int64:
 		return v1
+	case int:
+		return int64(v1.(int))
 	case int32:
 		return int64(v1.(int32))
 	case int16:
@@ -90,6 +92,8 @@ func normalizeValue(v1 interface{}) interface{} {
 		return int64(v1.(int8))
 	case uint64:
 		return v1
+	case uint:
+		return uint64(v1.(uint))
 	case uint32:
 		return uint64(v1.(uint32))
 	case uint16:
