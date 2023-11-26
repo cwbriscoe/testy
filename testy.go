@@ -1,4 +1,4 @@
-// Copyright 2020 Christopher Briscoe.  All rights reserved.
+// Copyright 2020-2023 Christopher Briscoe.  All rights reserved.
 
 // Package testy consists of a few simple testing helper functions.
 // You can shorten your typing by declaring the following variables
@@ -11,6 +11,7 @@
 package testy
 
 import (
+	"fmt"
 	"runtime"
 	"testing"
 )
@@ -70,10 +71,10 @@ func NotNil(tb testing.TB, v1 interface{}) {
 }
 
 // Assert fails if the condition expression is false.
-func Assert(tb testing.TB, condition bool, msg string) {
+func Assert(tb testing.TB, condition bool, msg string, args ...any) {
 	_, file, line, _ := runtime.Caller(1)
 	if !condition {
-		tb.Fatalf("%s:%d ASSERT: %s", file, line, msg)
+		tb.Fatalf("%s:%d ASSERT: %s", file, line, fmt.Sprintf(msg, args...))
 	}
 }
 

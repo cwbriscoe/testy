@@ -1,4 +1,4 @@
-// Copyright 2020 Christopher Briscoe.  All rights reserved.
+// Copyright 2020-2023 Christopher Briscoe.  All rights reserved.
 
 package testy
 
@@ -80,6 +80,7 @@ func TestAssert(t *testing.T) {
 	Assert(t, "A" == "A", "A != A")
 	Assert(t, "Foo" == "Foo", "Foo != Foo")
 	Assert(t, "Foo" == "Foo", "Foo != Foo")
+	Assert(t, 1 == 1, "expected %d == %d", 1, 1)
 }
 
 func TestNilValues(t *testing.T) {
